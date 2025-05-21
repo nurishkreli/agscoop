@@ -150,11 +150,16 @@ function loadCategories() {
 }
 
 function deleteCategory(cat) {
+  const confirmDelete = confirm(`Are you sure you want to delete the category "${cat}"? This will remove all its materials.`);
+
+  if (!confirmDelete) return;
+
   let materials = JSON.parse(localStorage.getItem("materials") || "[]");
   materials = materials.filter(m => m.category !== cat);
   localStorage.setItem("materials", JSON.stringify(materials));
   loadCategories();
 }
+
 
 function openCategory(category) {
   selectedCategory = category;
@@ -249,6 +254,9 @@ function editMaterial(index) {
 }
 
 function deleteMaterial(index) {
+  const confirmDelete = confirm("Are you sure you want to delete this material?");
+  if (!confirmDelete) return;
+
   let materials = JSON.parse(localStorage.getItem("materials") || "[]");
   const filtered = materials.filter(m => m.category === selectedCategory && m.name !== "__placeholder__");
   const mat = filtered[index];
@@ -257,6 +265,7 @@ function deleteMaterial(index) {
   localStorage.setItem("materials", JSON.stringify(materials));
   loadMaterials();
 }
+
 
 function clearForm() {
   document.getElementById("material-name").value = "";
